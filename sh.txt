@@ -1,0 +1,194 @@
+
+#!/bin/sh
+#appending the values in who.txt
+cat who.txt		
+
+
+
+
+#!/bin/sh
+#display 1st 3 lines of who.txt
+head -3 who.txt		
+
+
+
+
+
+#!/bin/bash
+#swapping
+echo "Enter: "
+echo -n "a= "
+read a					
+echo -n "b= "
+read b
+c=$a
+a=$b
+b=$c
+echo "Value of \na = $a \nb = $b"
+
+
+
+
+#!/bin/bash
+#greatest of 3 nos
+a=$1
+b=$2
+c=$3
+if [ $a -gt $b -a $a -gt $c ]
+then
+echo "$a is greatest"
+elif [ $b -gt $a -a $b -gt $c ]		
+then
+echo "$b is greatest"	
+elif [ $c -gt $a -a $c -gt $b ]
+then
+echo "$c is greatest"
+fi
+
+
+
+
+
+
+#!/bin/sh
+#marksheet input thru terminal
+echo "     ----Marksheet----"
+read -p "Enter the marks of the student: " m
+echo " "
+if [ $m -le 100 -a $m -ge 90 ]
+then
+    grade="A"
+elif [ $m -le 89 -a $m -ge 70 ]
+then							
+    grade="B"
+elif [ $m -le 69 -a $m -ge 40 ]
+then
+    grade="C"
+else
+    grade="F"
+fi
+echo "Grade given: $grade \n\n"
+
+
+
+
+
+
+#!/bin/bash
+#factorial using while
+echo "enter a number"
+read num
+fact=1
+while [ $num -ge 1 ]				
+do
+fact=`expr $fact \* $num`
+num=`expr $num – 1`
+done
+echo "factorial of $num is $fact"
+
+
+
+
+
+
+#!/bin/bash
+#fact using for
+echo "Enter the number : "
+read num
+fact=1							
+for((i=num;i>=2;i--))
+{
+	fact=$((fact * i))
+}
+echo "$fact"
+
+
+
+#!/bin/sh
+echo -e "The present working Directory is: `pwd` "	
+read -p "Enter a number: " a					
+y=`expr $a % 2`
+if [ $y == 0 ]
+then 
+	echo -e "The number $a is even \n"
+else
+	echo -e "The number $a is odd \n"
+fi
+aq=` ls -p | grep -v "/$" |wc -w `			
+echo -e "The count for all files in this directory is $aq \n"
+echo -e "Long listing of all files in this directory is "
+ls -l -p | grep -v "/$" 
+
+
+
+
+
+
+#!/bin/sh
+#prime no. from 1 and 100
+echo -e "\n Prime numbers Between 1 to 100\n"
+for num in `seq 2 100`
+do
+	count=0
+	loop=$(echo "sqrt ( $num )" | bc )			
+	for div in `seq 2 $loop`
+	do
+		mod=`expr $num % $div`
+		if [ $mod == 0 ]
+		then
+			count=`expr $count + 1`
+		fi
+	done
+	if [ $count == 0 ]
+	then
+		echo -e -n " $num,"
+	fi
+done
+echo -e "\n"
+
+
+
+
+
+
+
+
+#!/bin/sh
+#whether it is a vowel or not
+read -p "Enter a letter " ltr					
+vowel="a e i o u A E I O U"
+cal=`echo $vowel | grep -c $ltr`
+if [ $cal == 1 ]
+then
+	echo -e "The letter $ltr is a vowel"
+else
+	echo -e "The letter $ltr is a consonant"
+fi
+
+
+
+
+
+#!/bin/sh
+#pattern
+echo -e "------- Pattern --------"
+for i in `seq 1 4`
+do								
+	for j in `seq 1 $i`
+	do
+		echo -n "* "
+	done
+	echo -e " "
+done
+
+
+
+
+
+
+
+
+
+	
+
+

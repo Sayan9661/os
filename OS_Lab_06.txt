@@ -1,0 +1,284 @@
+﻿INSTITUTE OF ENGINEERING AND MANAGEMENT
+DEPARTMENT OF COMPUTER SCIENCE
+OPERATING SYSTEM LAB CS693
+Date :- 03.04.2019
+1. Write a program to implement the Priority Scheduling scheduling algorithm. Use the example given in the manual as your test case.
+
+
+Source Code :- 
+#include <bits/stdc++.h> 
+  
+using namespace std; 
+  
+int totalprocess;
+  
+struct process {
+    int at,bt,pr,pno; 
+}; 
+  
+process proc[50]; 
+  
+  
+bool comp(process a,process b){ 
+    if(a.at == b.at){ 
+        return a.pr<b.pr; 
+    } 
+    else{ 
+        return a.at<b.at; 
+    } 
+} 
+  
+void get_wt_time(int wt[]){
+    int service[50]; 
+    service[0]=0; 
+    wt[0]=0; 
+    for(int i=1;i<totalprocess;i++){ 
+        service[i]=proc[i-1].bt+service[i-1];
+        wt[i]=service[i]-proc[i].at+1; 
+        if(wt[i]<0){ 
+            wt[i]=0;
+        } 
+    } 
+  
+} 
+  
+void get_tat_time(int tat[],int wt[]){ 
+    for(int i=0;i<totalprocess;i++) { 
+        tat[i]=proc[i].bt+wt[i]; 
+    }  
+} 
+  
+void findgc(){ 
+    int wt[50],tat[50]; 
+    double wavg=0,tavg=0; 
+    get_wt_time(wt);  
+    get_tat_time(tat,wt); 
+    int stime[50],ctime[50]; 
+    stime[0]=1; 
+    ctime[0]=stime[0]+tat[0]; 
+    for(int i=1;i<totalprocess;i++){ 
+        stime[i]=ctime[i-1]; 
+        ctime[i]=stime[i]+tat[i]-wt[i]; 
+    } 
+      
+    cout<<"Process_no\tStart_time\tComplete_time\tTurn_Around_Time\tWaiting_Time"<<endl; 
+      
+      
+    for(int i=0;i<totalprocess;i++){ 
+        wavg += wt[i]; 
+        tavg += tat[i]; 
+          
+        cout<<proc[i].pno<<"\t\t"<< 
+            stime[i]<<"\t\t"<<ctime[i]<<"\t\t"<< 
+            tat[i]<<"\t\t\t"<<wt[i]<<endl; 
+    } 
+
+
+      
+    cout<<"Average waiting time is : "; 
+    cout<<wavg/(float)totalprocess<<endl; 
+    cout<<"average turnaround time : "; 
+    cout<<tavg/(float)totalprocess<<endl; 
+  
+} 
+  
+int main(){ 
+    
+    cout<<"Enter Total no. of Process : ";
+    cin>>totalprocess;
+    int *arrivaltime = (int *)malloc(totalprocess * sizeof(int)) ;
+    int *bursttime = (int *)malloc(totalprocess * sizeof(int)) ;
+    int *priority = (int *)malloc(totalprocess * sizeof(int)) ;
+    cout<<"Enter Arrival Time : ";
+    for(auto i=0;i<totalprocess;i++)
+        cin>>arrivaltime[i];
+    
+    cout<<"Enter Burst Time : ";
+    for(auto i=0;i<totalprocess;i++)
+        cin>>bursttime[i];
+     
+     cout<<"Enter Priority : ";
+    for(auto i=0;i<totalprocess;i++)
+        cin>>priority[i];
+
+
+      
+for(int i=0;i<totalprocess;i++) 
+{ 
+    proc[i].at=arrivaltime[i]; 
+    proc[i].bt=bursttime[i]; 
+    proc[i].pr=priority[i]; 
+    proc[i].pno=i+1; 
+    }  
+      
+      
+    sort(proc,proc+totalprocess,comp); 
+    
+      
+    findgc();  
+  
+    return 0; 
+} 
+
+
+
+
+
+
+Sample Output :-
+  
+
+
+
+
+
+
+
+
+
+
+
+2. Write a program to implement the Round robin scheduling algorithm. Use the example given in the manual as your test case.
+
+
+Source Code :- 
+#include<iostream> 
+using namespace std; 
+void findWaitingTime(int processes[], int n, 
+                        int bt[], int wt[], int quantum) 
+{ 
+        
+        int rem_bt[n]; 
+        for (int i = 0 ; i < n ; i++) 
+                rem_bt[i] = bt[i]; 
+
+
+        int t = 0; 
+
+
+        while (1) 
+        { 
+                bool done = true; 
+
+
+                for (int i = 0 ; i < n; i++) 
+                { 
+                        
+                        if (rem_bt[i] > 0) 
+                        { 
+                                done = false; 
+
+
+                                if (rem_bt[i] > quantum) 
+                                { 
+                                        
+                                        t += quantum; 
+
+
+                                        
+                                        rem_bt[i] -= quantum; 
+                                } 
+
+
+                                
+                                else
+                                { 
+                                        
+                                        t = t + rem_bt[i]; 
+
+
+                                        wt[i] = t - bt[i]; 
+
+
+                                        rem_bt[i] = 0; 
+                                } 
+                        } 
+                } 
+
+
+                if (done == true) 
+                break; 
+        } 
+} 
+
+
+void findTurnAroundTime(int processes[], int n, 
+                                                int bt[], int wt[], int tat[]) 
+{ 
+
+
+        for (int i = 0; i < n ; i++) 
+                tat[i] = bt[i] + wt[i]; 
+} 
+
+
+void findavgTime(int processes[], int n, int bt[], 
+                                                                        int quantum) 
+{ 
+        int wt[n], tat[n], total_wt = 0, total_tat = 0; 
+
+
+        findWaitingTime(processes, n, bt, wt, quantum); 
+
+
+        findTurnAroundTime(processes, n, bt, wt, tat); 
+
+
+        cout << "Processes "<< " Burst time "
+                << " Waiting time " << " Turn around time\n"; 
+
+
+
+
+        for (int i=0; i<n; i++) 
+        { 
+                total_wt = total_wt + wt[i]; 
+                total_tat = total_tat + tat[i]; 
+                cout << " " << i+1 << "\t\t" << bt[i] <<"\t "
+                        << wt[i] <<"\t\t " << tat[i] <<endl; 
+        } 
+
+
+        cout << "Average waiting time = "
+                << (float)total_wt / (float)n; 
+        cout << "\nAverage turn around time = "
+                << (float)total_tat / (float)n; 
+} 
+
+
+
+
+int main() 
+{ 
+    int totalprocess;
+    cout<<"Enter Total no. of Process : ";
+    cin>>totalprocess;
+    
+    int *processes = (int *)malloc(totalprocess * sizeof(int));
+    cout<<"Enter Process Id :";
+    for(auto i=0;i<totalprocess;i++)
+        cin>>processes[i];
+        
+    int *burst_time = (int *)malloc(totalprocess * sizeof(int)) ;
+    cout<<"Enter Burst Time : ";
+    for(auto i=0;i<totalprocess;i++)
+        cin>>burst_time[i];
+        
+        int n = sizeof processes / sizeof processes[0]; 
+
+
+         
+ 
+        int quantum;
+        cout<<"Enter time Quantum : ";
+        cin>>quantum; 
+        findavgTime(processes, n, burst_time, quantum); 
+        return 0; 
+} 
+
+
+Sample Output :-
+  
+
+Name :- Swapnil Raj
+Sec:- A Roll :- 09

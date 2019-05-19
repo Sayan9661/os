@@ -1,0 +1,50 @@
+ls					//all files and directory frm curr directory
+
+ls -a					//all files incl hidden files in parent directory
+
+ls -d */				//directory files in curr directory
+
+touch text1.txt				// create .txt file
+nano text1.txt
+
+cp text1.txt text2.txt			// copy
+nano text2.txt
+
+cat text2.txt>> text1.txt		//append
+nano text1.txt
+
+wc -l text1.txt				// word count
+
+date +%r				// current date in 12 hr frmat
+
+date -d "2009-05-02" +%A		//user specified date output day
+
+echo "sqrt(4)" | bc			// square root of 4
+
+A=5					// operation
+b=6
+z=15
+echo "( $A * $b ) + ( $z / $A )" | bc
+
+sort -n numbers.txt			//sorting numbers in a file
+
+sort -n -r numbers.txt			//sorting numbers in rev order
+
+touch stud.txt
+sort -k 1 stud.txt			// sort acc to 1st column (no.)
+sort -k 3 stud.txt			// sort acc to 3rd column (txt)
+grep "CSE" stud.txt			// group cse students together
+
+tail -2 ani.txt				// last 2 lines of ani.txt
+head -3 ani.txt				// first 3 lines of ani.txt
+
+ls -d */ | wc -w			// no. of directories in curr directory
+
+grep "dog" ani.txt | wc -l		// count no. of lines containing dog
+grep -v "dog" ani.txt | wc -l		// count no. of lines with no dog
+grep -i "cat$" ani.txt 			// end with cat
+
+ 
+
+
+ 
